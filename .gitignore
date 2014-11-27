@@ -1,12 +1,15 @@
 # Created by .gitignore support plugin (hsz.mobi)
 ### Gradle template
-.gradle
-build/
+/.gradle/
+/gradle/
+/build/
 
 # Ignore Gradle GUI config
-gradle-app.setting
+settings.gradle
 /.idea/
+
 BSSYS01.iml
+heap.txt
 
 
 
