@@ -9,6 +9,18 @@ package ru.bssys.task
     •	Изъять число из конца очереди;   fetch last
  */
 class DoubleEndedQueue {
-  private def stack = []
+  private def first, last, tmp, length = 0 as BigInteger
+  def addFirst = { t ->
+    if (!first) {
+      first = last = t
+      length++
+      return
+    }
+    tmp = first
+    first = t
+    first.metaClass.next = { tmp }
+    tmp.metaClass.previous = { first }
+    length++
+  }
 
 }
