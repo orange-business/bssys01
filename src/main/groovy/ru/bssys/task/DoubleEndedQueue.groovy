@@ -16,11 +16,33 @@ class DoubleEndedQueue {
       length++
       return
     }
-    tmp = first
-    first = t
-    first.metaClass.next = { tmp }
-    tmp.metaClass.previous = { first }
-    length++
+    {->
+      tmp = first
+      first = t
+      first.metaClass.next = {-> tmp }
+      tmp.metaClass.previous = {-> first }
+      length++
+    }()
+    return
   }
-
+  def fetchFirst = { ->
+    if (!first) return
+    else {
+      {->
+        tmp = first
+        first = first.next()
+        length--
+      }()
+      return tmp
+    }
+  }
+  BigInteger getLength() { return length }
+  String toString(){
+    String output = first + " " + first.next() + " " + (first.next()).next()
+//    while(first) {
+//      output += first?.next()
+//      first = first?.next()
+//    }
+    return output
+  }
 }
