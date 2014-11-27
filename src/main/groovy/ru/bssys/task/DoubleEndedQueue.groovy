@@ -10,16 +10,19 @@ package ru.bssys.task
  */
 class DoubleEndedQueue {
   private def first, last, length = 0 as BigInteger
+
   def addFirst = { t ->
     if (!first) {
       first = last = t
       first.metaClass.nxt = null
+      first.metaClass.prv = null
       length++
       return
     }
     def second = first
     first = t
     first.metaClass.nxt = second
+    first.metaClass.prv = null
     second.metaClass.prv = first
     length++
     return
@@ -27,9 +30,10 @@ class DoubleEndedQueue {
   def fetchFirst = { ->
     if (!first) return
     def deleted = first
+    length--
     first = first.nxt
     if (first) first.prv = null
-    length--
+
     return deleted
   }
 
@@ -44,4 +48,5 @@ class DoubleEndedQueue {
     }
     return output
   }
+
 }

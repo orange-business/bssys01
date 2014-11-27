@@ -23,6 +23,24 @@ class DoubleEndedQueueTest extends Specification {
     expect: stack.length == 0 & stack.toString() == ''
   }
 
+  def "test broke fetchFirst method times"() {
+    def stack = new DoubleEndedQueue()
+    stack.addFirst(22)
+    def res1 = stack.fetchFirst()
+    stack.addFirst("Hello Cap!")
+    expect: res1 == 22 & stack.length == 1 & stack.toString() == 'Hello Cap!' & stack.@first == 'Hello Cap!' &
+            stack.@first.nxt == null  & stack.@first.prv == null & stack.@first == stack.@last
+  }
+
+  def "test broke fetchFirst method 5 times"() {
+    def stack = new DoubleEndedQueue()
+    stack.addFirst(22)
+    stack.fetchFirst()
+    stack.addFirst("Hello Cap!")
+    stack.addFirst(22)
+    expect: stack.length == 2 & stack.@first.nxt == null
+  }
+
   def "test addFirst once method Integer"() {
     def stack = new DoubleEndedQueue()
     stack.addFirst(-123456)
