@@ -119,7 +119,7 @@ class DoubleEndedQueueTest extends Specification {
   def "test broke fetchFirst method times"() {
     stack = new DoubleEndedQueue()
     stack.addFirst(22)
-    def res1 = stack.fetchFirst().body
+    def res1 = stack.fetchFirst()
     stack.addFirst("Hello Cap!")
     expect: res1 == 22 & stack.length == 1 & stack.toString() == 'Hello Cap!' & stack.@first.toString() == 'Hello Cap!' &
             stack.@first.next == null  & stack.@first.previous == null & stack.@first == stack.@last

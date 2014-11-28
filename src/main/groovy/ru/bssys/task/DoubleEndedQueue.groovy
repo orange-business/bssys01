@@ -41,12 +41,12 @@ class DoubleEndedQueue {
     if (!last.previous) {
       first = last = null
       length = 0
-      return deleted
+      return deleted.body
     }
     length--
     last = last.previous
     last.next = null
-    return deleted
+    return deleted.body
   }
 
   def addFirst = { t ->
@@ -76,21 +76,28 @@ class DoubleEndedQueue {
     // если следующего за first нет, то
     if (!first) {
       last = null
-      return deleted
+      return deleted.body
     }
     first.previous = null
-    return deleted
+    return deleted.body
   }
 
   BigInteger getLength() { return length }
   String toString(){
-    def curr = first
-    String output = ''
+    def curr = first, output = ''
+
     if (curr) output += curr.toString()
     while(curr && curr.next && curr.next != null) {
       curr = curr.next
       output += ' ' + curr.toString()
     }
     return output
+  }
+  private class Envelope {
+    def body, next, previous
+    Envelope(def t) { this.body = t  }
+    String toString(){
+      return body.toString()
+    }
   }
 }

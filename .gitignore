@@ -6,6 +6,8 @@
 
 # Ignore Gradle GUI config
 settings.gradle
+gradlew.bat
+gradlew
 /.idea/
 
 BSSYS01.iml
