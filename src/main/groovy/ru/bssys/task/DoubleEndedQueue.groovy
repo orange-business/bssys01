@@ -9,31 +9,76 @@ package ru.bssys.task
  •	Изъять число из конца очереди;   fetch last
  */
 class DoubleEndedQueue {
-  private def first, last, length = 0 as BigInteger
+  private Envelope first, last
+  private def length = 0 as BigInteger
 
-  def addFirst = { t ->
-    if (!first) {
-      first = last = t
-      first.metaClass.nxt = null
-      first.metaClass.prv = null
+  def addLast = { t ->
+    // очередь пуста
+    if (!last) {
+      first = last = new Envelope(t)
+      first.next = null
+      first.previous = null
       length++
       return
     }
-    def second = first
-    first = t
-    first.metaClass.nxt = second
-    first.metaClass.prv = null
-    second.metaClass.prv = first
+    // last существует
+    Envelope nextToLast  = last
+    last = new Envelope(t)
+    last.next = null
+    last.previous = nextToLast
+    nextToLast.next = last
+    length++
+    return
+  }
+
+  def fetchLast = { ->
+    // last не существует
+    if (!last) return
+    // last существует
+    def deleted = last
+
+    // last был единственным
+    if (!last.previous) {
+      first = last = null
+      length = 0
+      return deleted
+    }
+    length--
+    last = last.previous
+    last.next = null
+    return deleted
+  }
+
+  def addFirst = { t ->
+    if (!first) {
+      first = last = new Envelope(t)
+      first.next = null
+      first.previous = null
+      length++
+      return
+    }
+    Envelope second = first
+    first = new Envelope(t)
+    first.next = second
+    first.previous = null
+    second.previous = first
     length++
     return
   }
   def fetchFirst = { ->
+    // first нет
     if (!first) return
+    // first есть
     def deleted = first
-    length--
-    first = first.nxt
-    if (first) first.prv = null
 
+    length--
+    first = first.next
+    // если следующего за first нет, то
+    if (!first) {
+      last = null
+      return deleted
+    }
+    first.previous = null
     return deleted
   }
 
@@ -42,11 +87,10 @@ class DoubleEndedQueue {
     def curr = first
     String output = ''
     if (curr) output += curr.toString()
-    while(curr && curr.metaClass.hasProperty(curr, 'nxt') && curr.nxt != null) {
-      curr = curr.nxt
+    while(curr && curr.next && curr.next != null) {
+      curr = curr.next
       output += ' ' + curr.toString()
     }
     return output
   }
-
 }
