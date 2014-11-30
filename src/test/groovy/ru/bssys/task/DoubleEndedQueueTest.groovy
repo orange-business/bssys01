@@ -14,7 +14,7 @@ class DoubleEndedQueueTest extends Specification {
     stack.fetchFirst()
     assert stack.length == 0
     stack.addFirst("Cheese")
-    assert stack.length == 1 & stack.last.toString() == 'Cheese'
+    assert stack.length == 1 & stack.last.body.toString() == 'Cheese'
     def res = stack.fetchLast()
     assert stack.length == 0 & stack.first == null & res.toString() == 'Cheese'& stack.last == null
     stack.addLast(422)
