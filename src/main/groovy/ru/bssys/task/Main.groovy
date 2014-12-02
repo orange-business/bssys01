@@ -17,3 +17,4 @@ def curr = stack?.first
 if (curr) length++
 while (curr = curr?.next) length++
 println 'количество элементов в очереди - ' + length
+
